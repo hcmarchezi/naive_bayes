@@ -95,14 +95,12 @@ describe NaiveBayes::Classifier do
             expect(classifier.classification_probability(category: :test_a, elements: ['blue', 'green', 'green'])).to eq(0.5120000000000001)
             expect(classifier.classification_probability(category: :test_a, elements: ['green', 'green',  'green'])).to eq(2.0480000000000005)
         end
-=begin
         it 'should reutrn the most probable category for an element array' do
-            expect(classifier.classify(category: :test_a, elements: [ 'blue'])).to be_eql(:test_a)
-            expect(classifier.classify(category: :test_a, elements: [ 'blue', 'blue',  'green'])).to be_eql(:test_a)
-            expect(classifier.classify(category: :test_a, elements: [ 'blue', 'green', 'black'])).to be_eql(:test_b)
-            expect(classifier.classify(category: :test_a, elements: [ 'blue', 'gray',  'black'])).to be_eql(:test_b)
+            expect(classifier.classify(['blue'])).to eq(:test_b)
+            expect(classifier.classify(['blue', 'blue',  'green'])).to eq(:test_b)
+            expect(classifier.classify(['blue', 'green', 'green'])).to eq(:test_a)
+            expect(classifier.classify(['green', 'green',  'green'])).to eq(:test_a)
          end
-=end
     end
 end
 

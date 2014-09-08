@@ -72,11 +72,6 @@ module NaiveBayes
             @category_occurrences[category].to_f / @total_elements.to_f
         end
 
-        # probability = P(category) * Prod i=1 to n( P(element i|category) / P(element i) )
-        # review the formula above
-        # maybe you can inverse division above 
-        #
-        #
         def classification_probability(params)
             category = params[:category]
             elements = params[:elements]
@@ -90,6 +85,19 @@ module NaiveBayes
             category_probability = category_probability(category)
             probability *= category_probability
             probability
+        end
+
+        def classify(elements)
+            max_category = nil
+            max_probability = 0.0
+            @occurrences.keys.each do |key|
+                probability = classification_probability(category: key,elements: elements)
+                if (probability > max_probability)
+                    max_probability = probability
+                    max_category = key
+                end
+            end
+            max_category
         end
 
         private
