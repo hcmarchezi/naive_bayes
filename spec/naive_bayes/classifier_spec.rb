@@ -3,7 +3,7 @@ require 'naive_bayes/classifier'
 
 describe NaiveBayes::Classifier do
     context 'categories' do
-        it 'should be added by simbolized name' do
+        it 'should be added with simbolized name' do
             classifier = NaiveBayes::Classifier.new
             classifier.add_category(name: :bad_news, training_set: [])
             expect(classifier.categories.size).to be_eql(1)
@@ -25,10 +25,10 @@ describe NaiveBayes::Classifier do
             classifier = NaiveBayes::Classifier.new
             classifier.add_category(name: :test, training_set: [ 'car', 'tree', 'street', 'truck', 'car' ])
             classifier.train
-            expect(classifier.occurrence(category: :test, element: 'car')).to be_eql(2)
-            expect(classifier.occurrence(category: :test, element: 'tree')).to be_eql(1)
-            expect(classifier.occurrence(category: :test, element: 'street')).to be_eql(1)
-            expect(classifier.occurrence(category: :test, element: 'truck')).to be_eql(1)
+            expect(classifier.element_occurrence(category: :test, element: 'car')).to be_eql(2)
+            expect(classifier.element_occurrence(category: :test, element: 'tree')).to be_eql(1)
+            expect(classifier.element_occurrence(category: :test, element: 'street')).to be_eql(1)
+            expect(classifier.element_occurrence(category: :test, element: 'truck')).to be_eql(1)
             
         end
         it 'should globally count elements occurrence' do
@@ -36,9 +36,9 @@ describe NaiveBayes::Classifier do
             classifier.add_category(name: :test_a, training_set: [ 'blue', 'green', 'blue' ])
             classifier.add_category(name: :test_b, training_set: [ 'black', 'black', 'black', 'blue'])
             classifier.train
-            expect(classifier.occurrence(element: 'blue')).to be_eql(3)
-            expect(classifier.occurrence(element: 'green')).to be_eql(1)
-            expect(classifier.occurrence(element: 'black')).to be_eql(3)
+            expect(classifier.element_occurrence(element: 'blue')).to be_eql(3)
+            expect(classifier.element_occurrence(element: 'green')).to be_eql(1)
+            expect(classifier.element_occurrence(element: 'black')).to be_eql(3)
         end
     end
 
@@ -50,10 +50,10 @@ describe NaiveBayes::Classifier do
             classifier.train
         end
         it 'should calculate the probability of an element occurrence given the category' do           
-            expect(classifier.probability_given_category(category: :test_a, element: 'blue')).to be_eql(2.0/3.0)
-            expect(classifier.probability_given_category(category: :test_a, element: 'black')).to be_eql(0.000001)
-            expect(classifier.probability_given_category(category: :test_a, element: 'green')).to be_eql(1.0/3.0)
-            expect(classifier.probability_given_category(category: :test_a, element: 'gray')).to be_eql(0.000001)
+            expect(classifier.element_probability_given_category(category: :test_a, element: 'blue')).to be_eql(2.0/3.0)
+            expect(classifier.element_probability_given_category(category: :test_a, element: 'black')).to be_eql(0.000001)
+            expect(classifier.element_probability_given_category(category: :test_a, element: 'green')).to be_eql(1.0/3.0)
+            expect(classifier.element_probability_given_category(category: :test_a, element: 'gray')).to be_eql(0.000001)
         end
         it 'should calculate the probability of an element occurrence (global context)' do
             expect(classifier.element_probability('blue')).to be_eql(3.0/7.0)
@@ -90,12 +90,12 @@ describe NaiveBayes::Classifier do
             classifier.train
         end
         it 'should calculate the probability of an element array to belong to a category' do
-            expect(classifier.classification_probability(category: :test_a, elements: ['blue'])).to eq(0.2)
-            expect(classifier.classification_probability(category: :test_a, elements: ['blue', 'blue',  'green'])).to eq(0.12800000000000003)
-            expect(classifier.classification_probability(category: :test_a, elements: ['blue', 'green', 'green'])).to eq(0.5120000000000001)
-            expect(classifier.classification_probability(category: :test_a, elements: ['green', 'green',  'green'])).to eq(2.0480000000000005)
+            expect(classifier.category_probability_given_elements(category: :test_a, elements: ['blue'])).to eq(0.2)
+            expect(classifier.category_probability_given_elements(category: :test_a, elements: ['blue', 'blue',  'green'])).to eq(0.12800000000000003)
+            expect(classifier.category_probability_given_elements(category: :test_a, elements: ['blue', 'green', 'green'])).to eq(0.5120000000000001)
+            expect(classifier.category_probability_given_elements(category: :test_a, elements: ['green', 'green',  'green'])).to eq(2.0480000000000005)
         end
-        it 'should reutrn the most probable category for an element array' do
+        it 'should return the most probable category for an element array' do
             expect(classifier.classify(['blue'])).to eq(:test_b)
             expect(classifier.classify(['blue', 'blue',  'green'])).to eq(:test_b)
             expect(classifier.classify(['blue', 'green', 'green'])).to eq(:test_a)

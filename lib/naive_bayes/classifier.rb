@@ -37,7 +37,20 @@ module NaiveBayes
             end
         end
 
-        def occurrence(params)
+        def classify(elements)
+            max_category = nil
+            max_probability = 0.0
+            @occurrences.keys.each do |key|
+                probability = category_probability_given_elements(category: key,elements: elements)
+                if (probability > max_probability)
+                    max_probability = probability
+                    max_category = key
+                end
+            end
+            max_category
+        end
+
+        def element_occurrence(params)
             category = params[:category]
             element = params[:element]
             if category
@@ -47,7 +60,7 @@ module NaiveBayes
             end
         end
 
-        def probability_given_category(params)            
+        def element_probability_given_category(params)
             category = params[:category]
             element  = params[:element]
             element_occurrence_in_category = @occurrences[category][element]            
@@ -72,12 +85,12 @@ module NaiveBayes
             @category_occurrences[category].to_f / @total_elements.to_f
         end
 
-        def classification_probability(params)
+        def category_probability_given_elements(params)
             category = params[:category]
             elements = params[:elements]
             probability = 1.0
             elements.each do |element| 
-                element_probability_given_category = probability_given_category(category: category,element: element)
+                element_probability_given_category = element_probability_given_category(category: category,element: element)
                 element_global_probability = element_probability(element)
                 element_probability = element_probability_given_category / element_global_probability
                 probability *= element_probability
@@ -87,20 +100,8 @@ module NaiveBayes
             probability
         end
 
-        def classify(elements)
-            max_category = nil
-            max_probability = 0.0
-            @occurrences.keys.each do |key|
-                probability = classification_probability(category: key,elements: elements)
-                if (probability > max_probability)
-                    max_probability = probability
-                    max_category = key
-                end
-            end
-            max_category
-        end
-
         private
+
         def validate_category(name)
             raise NaiveBayes::Error::InvalidCategoryName if name.nil?
             raise NaiveBayes::Error::CategoryNameAlreadyExists if @training_sets.keys.include?(name)        
