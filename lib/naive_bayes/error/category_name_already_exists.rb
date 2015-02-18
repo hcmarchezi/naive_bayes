@@ -1,7 +1,7 @@
 module NaiveBayes
-	module Error
-		class CategoryNameAlreadyExists < StandardError
-		end
-	end
+  module Error
+    class CategoryNameAlreadyExists < StandardError
+    end
+  end
 end
 
