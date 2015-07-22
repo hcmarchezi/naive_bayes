@@ -1,33 +1,42 @@
 # NaiveBayes
 
 This gem provides a naive bayes classifier for models with N features.
+Simply put given examples of pre-defined categories the classifier learns how
+to classify new unknown examples.
 
 ## Usage
 
 Classifier can be used in three steps:
 
-1. Provide category names and its respective training set 
+1. Provide category names and its respective training set
 
 2. Train classifier with provided categories
 
-3. Classify models 
-
+3. Classify models
 
 For instance the example below shows how to classify words in categories test_a and test_b.
-Taking in consideration the number of occurrences of each word in both categories besides 
-the frequency of the category the classifier returns the most probable category for the 
+Taking in consideration the number of occurrences of each word in both categories besides
+the frequency of the category the classifier returns the most probable category for the
 given collection of features.
 
 ```ruby
 require 'naive_bayes/classifier'
 
+# 1 - Providing examples
 classifier = NaiveBayes::Classifier.new
-classifier.add_category(name: :test_a, training_set: [ 'green', 'green', 'green', 'green', 'blue' ])
-classifier.add_category(name: :test_b, training_set: [ 'blue',  'blue',  'blue',  'blue',  'green' ])
+classifier.add_category(
+  name: :not_spam,
+  training_set: [ 'Hi', 'Joe', 'how', 'are', 'you' ])
+classifier.add_category(
+  name: :spam,
+  training_set: [ 'Buy',  'products',  'you',  'do',  'not', 'need' ])
+
+# 2 - Train classifier
 classifier.train
 
-classifier.classify(['green','blue','blue','blue') # => test_b
-classifier.classify(['green', 'blue', 'green') # => test_a
+# 3 - Classify new examples
+classifier.classify(['Hi','James','are','you', 'going') # => not_spam
+classifier.classify(['Buy', 'not', 'needed', ' product') # => spam
 ```
 
 ## Contributing
