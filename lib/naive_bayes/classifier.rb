@@ -1,38 +1,36 @@
 require 'naive_bayes/error/category_name_already_exists'
 require 'naive_bayes/error/invalid_category_name'
+require 'naive_bayes/phrase_array'
 
 module NaiveBayes
   class Classifier
     SMALL_PROBABILITY = 0.000001
 
     def initialize
-      @training_sets = {}
+      @category_examples = {}
       @occurrences = {}
       @global_occurrences = {}
       @probabilities = {}
       @global_probabilities = {}
       @category_occurrences = {}
       @total_elements = 0
-    end
-
-    def add_category(params)
-      name = params[:name]
-      training_set = params[:training_set]
-      validate_category(name)
-      @training_sets[name] = training_set
+      @total_phrases = 0;
     end
 
     def categories
-      @training_sets.keys
+      @category_examples.keys
     end
 
     def train
-      @training_sets.keys.each do |category|
-        @training_sets[category].each do |element|
-          count_element_occurrence_in_category(category,element)
-          count_element_occurrence_in_global(element)
+      @category_examples.keys.each do |category|
+        @category_examples[category].each do |phrase|
+          phrase.each do |word|
+            count_element_occurrence_in_category(category,word)
+            count_element_occurrence_in_global(word)
+            @total_elements += 1
+          end
           count_category_occurrence(category)
-          @total_elements += 1
+          @total_phrases += 1
         end
       end
     end
@@ -82,7 +80,7 @@ module NaiveBayes
     end
 
     def category_probability(category)
-      @category_occurrences[category].to_f / @total_elements.to_f
+      @category_occurrences[category].to_f / @total_phrases.to_f
     end
 
     def category_probability_given_elements(params)
@@ -98,6 +96,14 @@ module NaiveBayes
       category_probability = category_probability(category)
       probability *= category_probability
       probability
+    end
+
+    def method_missing(name, *args, &block)
+      @category_examples[name] = PhraseArray.new
+      define_singleton_method name do
+        @category_examples[name]
+      end
+      public_send(name)
     end
 
     private

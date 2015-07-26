@@ -2,32 +2,25 @@ require 'spec_helper'
 require 'naive_bayes/classifier'
 
 describe NaiveBayes::Classifier do
-  context 'categories' do
-    it 'should be added with simbolized name' do
+  context 'categories examples' do
+    it 'should be added as a dynamically created method' do
       classifier = NaiveBayes::Classifier.new
-      classifier.add_category(name: :bad_news, training_set: [])
-      expect(classifier.categories.size).to be_eql(1)
-      expect(classifier.categories[0]).to be_eql(:bad_news)
+      classifier.random_categ << "example 1"
+      classifier.random_categ << "example 2"
+      classifier.random_categ << "example 3"
+      expect(classifier.random_categ.size).to be_eql(3)
     end
-
-    it 'should not be repeated' do
+    it 'should break a phrase into an array of words' do
       classifier = NaiveBayes::Classifier.new
-      classifier.add_category(name: :bad_news, training_set: [])
-      expect { classifier.add_category(name: :bad_news, training_set: []) }
-        .to raise_error(NaiveBayes::Error::CategoryNameAlreadyExists)
-    end
-
-    it 'should not be nil' do
-      classifier = NaiveBayes::Classifier.new
-      expect { classifier.add_category(name: nil, training_set: []) }
-        .to raise_error(NaiveBayes::Error::InvalidCategoryName)
+      classifier.another_categ << "word1 word2 word3"
+      expect(classifier.another_categ[0]).to be_eql(["word1","word2","word3"])
     end
   end
 
   context 'element occurrence count' do
     it 'should count elements occurrence in a category' do
       classifier = NaiveBayes::Classifier.new
-      classifier.add_category(name: :test, training_set: ['car', 'tree', 'street', 'truck', 'car'])
+      classifier.test  << 'car tree street truck car'
       classifier.train
       expect(classifier.element_occurrence(category: :test, element: 'car')).to be_eql(2)
       expect(classifier.element_occurrence(category: :test, element: 'tree')).to be_eql(1)
@@ -37,8 +30,8 @@ describe NaiveBayes::Classifier do
 
     it 'should globally count elements occurrence' do
       classifier = NaiveBayes::Classifier.new
-      classifier.add_category(name: :test_a, training_set: ['blue', 'green', 'blue'])
-      classifier.add_category(name: :test_b, training_set: ['black', 'black', 'black', 'blue'])
+      classifier.test_a << 'blue green blue'
+      classifier.test_b << 'black black black blue'
       classifier.train
       expect(classifier.element_occurrence(element: 'blue')).to be_eql(3)
       expect(classifier.element_occurrence(element: 'green')).to be_eql(1)
@@ -49,8 +42,8 @@ describe NaiveBayes::Classifier do
   context 'probability calculation' do
     let(:classifier) { NaiveBayes::Classifier.new }
     before do
-      classifier.add_category(name: :test_a, training_set: ['blue', 'green', 'blue'])
-      classifier.add_category(name: :test_b, training_set: ['black', 'black', 'black', 'blue'])
+      classifier.test_a << 'blue green blue'
+      classifier.test_b << 'black black black blue'
       classifier.train
     end
 
@@ -69,8 +62,8 @@ describe NaiveBayes::Classifier do
     end
 
     it 'should calculate the probability of the category' do
-      expect(classifier.category_probability(:test_a)).to be_eql(3.0 / 7.0)
-      expect(classifier.category_probability(:test_b)).to be_eql(4.0 / 7.0)
+      expect(classifier.category_probability(:test_a)).to be_eql(1.0 / 2.0)
+      expect(classifier.category_probability(:test_b)).to be_eql(1.0 / 2.0)
     end
   end
 
@@ -93,8 +86,8 @@ describe NaiveBayes::Classifier do
     let(:classifier) { NaiveBayes::Classifier.new }
 
     before do
-      classifier.add_category(name: :test_a, training_set: ['green', 'green', 'green', 'green', 'blue'])
-      classifier.add_category(name: :test_b, training_set: ['blue',  'blue',  'blue',  'blue',  'green'])
+      classifier.test_a << 'green green green green blue'
+      classifier.test_b << 'blue blue blue blue green'
       classifier.train
     end
 
