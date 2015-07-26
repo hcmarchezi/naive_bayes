@@ -24,12 +24,8 @@ require 'naive_bayes/classifier'
 
 # 1 - Providing examples
 classifier = NaiveBayes::Classifier.new
-classifier.add_category(
-  name: :not_spam,
-  training_set: [ 'Hi', 'Joe', 'how', 'are', 'you' ])
-classifier.add_category(
-  name: :spam,
-  training_set: [ 'Buy',  'products',  'you',  'do',  'not', 'need' ])
+classifier.not_spam << "Hi Joe, how are you?"
+classifier.spam << "Buy products you don't need"
 
 # 2 - Train classifier
 classifier.train
