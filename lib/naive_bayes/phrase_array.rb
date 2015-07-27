@@ -1,10 +1,12 @@
+require 'naive_bayes/utils'
+
 module NaiveBayes
   class PhraseArray
     def initialize
       @phrase_array = []
     end
     def <<(phrase)
-      @phrase_array << break_phrase_in_word_array(phrase)
+      @phrase_array << Utils.break_phrase_in_word_array(phrase)
     end
     def size
       @phrase_array.size
@@ -17,13 +19,6 @@ module NaiveBayes
     end
     def to_s
       @phrase_array.to_s
-    end
-    private
-    def break_phrase_in_word_array(phrase)
-      [",", ":", "?", "!", ";", ".", "/", "|"].each do |elem|
-        phrase = phrase.gsub(elem,"")
-      end
-      phrase.split
     end
   end
 end

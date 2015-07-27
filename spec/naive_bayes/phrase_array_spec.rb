@@ -20,11 +20,6 @@ describe NaiveBayes::PhraseArray do
       expect(phrase_array[0][2]).to be_eql('another')
       expect(phrase_array[0][3]).to be_eql('phrase')
     end
-    it 'should remove punctuation symbols when including a phrase' do
-      phrase_array = NaiveBayes::PhraseArray.new
-      phrase_array << "word1, word2? word3! word4: word5; word6. word7 word8/ word9|"
-      expect(phrase_array[0]).to be_eql(["word1", "word2", "word3", "word4", "word5", "word6", "word7", "word8", "word9"])
-    end
   end
   context 'phrase and word access' do
     it 'should allow to interate through each phrase and word' do

@@ -99,10 +99,10 @@ describe NaiveBayes::Classifier do
     end
 
     it 'should return the most probable category for an element array' do
-      expect(classifier.classify(['blue'])).to eq(:test_b)
-      expect(classifier.classify(['blue', 'blue',  'green'])).to eq(:test_b)
-      expect(classifier.classify(['blue', 'green', 'green'])).to eq(:test_a)
-      expect(classifier.classify(['green', 'green',  'green'])).to eq(:test_a)
+      expect(classifier.classify('blue')).to eq(:test_b)
+      expect(classifier.classify('blue blue green')).to eq(:test_b)
+      expect(classifier.classify('blue green green')).to eq(:test_a)
+      expect(classifier.classify('green green green')).to eq(:test_a)
     end
   end
 end

@@ -1,6 +1,7 @@
 require 'naive_bayes/error/category_name_already_exists'
 require 'naive_bayes/error/invalid_category_name'
 require 'naive_bayes/phrase_array'
+require 'naive_bayes/utils'
 
 module NaiveBayes
   class Classifier
@@ -36,6 +37,7 @@ module NaiveBayes
     end
 
     def classify(elements)
+      elements = Utils.break_phrase_in_word_array(elements)
       max_category = nil
       max_probability = 0.0
       @occurrences.keys.each do |key|
@@ -107,11 +109,6 @@ module NaiveBayes
     end
 
     private
-
-    def validate_category(name)
-      raise NaiveBayes::Error::InvalidCategoryName if name.nil?
-      raise NaiveBayes::Error::CategoryNameAlreadyExists if @training_sets.keys.include?(name)
-    end
 
     def count_element_occurrence_in_category(category, element)
       unless @occurrences.has_key?(category)

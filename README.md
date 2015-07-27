@@ -31,9 +31,15 @@ classifier.spam << "Buy products you don't need"
 classifier.train
 
 # 3 - Classify new examples
-classifier.classify(['Hi','James','are','you', 'going') # => not_spam
-classifier.classify(['Buy', 'not', 'needed', ' product') # => spam
+classifier.classify("Hi James, are you going?") # => not_spam
+classifier.classify("Buy not needed product") # => spam
 ```
+
+## Planed Future Features
+
+1. Load category examples from external files to reduce code size
+2. Load pre-trained data from file to decrease classifier initialization time
+3. Optimize algorithms to use pre-calculated values
 
 ## Contributing
 
