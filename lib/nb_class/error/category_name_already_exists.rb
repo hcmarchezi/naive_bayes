@@ -1,4 +1,4 @@
-module NaiveBayes
+module NBClass
   module Error
     class CategoryNameAlreadyExists < StandardError
     end

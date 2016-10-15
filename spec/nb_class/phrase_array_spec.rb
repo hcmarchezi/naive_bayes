@@ -1,17 +1,17 @@
 require 'spec_helper'
-require 'naive_bayes/phrase_array'
+require 'nb_class/phrase_array'
 
-describe NaiveBayes::PhraseArray do
+describe NBClass::PhraseArray do
   context 'phrase inclusion' do
     it 'should be done with operator <<' do
-      phrase_array = NaiveBayes::PhraseArray.new
+      phrase_array = NBClass::PhraseArray.new
       phrase_array << "this is statement 1"
       phrase_array << "this is statement 2"
       phrase_array << "this is statement 3"
       expect(phrase_array.size).to be_eql(3)
     end
     it 'should break included phrase as an array of words' do
-      phrase_array = NaiveBayes::PhraseArray.new
+      phrase_array = NBClass::PhraseArray.new
       phrase_array << "this is another phrase"
       expect(phrase_array.size).to be_eql(1)
       expect(phrase_array[0].size).to be_eql(4)
@@ -23,7 +23,7 @@ describe NaiveBayes::PhraseArray do
   end
   context 'phrase and word access' do
     it 'should allow to interate through each phrase and word' do
-      phrase_array = NaiveBayes::PhraseArray.new
+      phrase_array = NBClass::PhraseArray.new
       phrase_array << "statement 1"
       phrase_array << "statement 2"
       phrase_array << "statement 3"

@@ -1,4 +1,4 @@
-# NaiveBayes
+# NBClass
 
 This gem provides a naive bayes classifier for models with N features.
 Simply put given examples of pre-defined categories the classifier learns how
@@ -20,10 +20,10 @@ the frequency of the category the classifier returns the most probable category 
 given collection of features.
 
 ```ruby
-require 'naive_bayes/classifier'
+require 'nb_class/classifier'
 
 # 1 - Providing examples
-classifier = NaiveBayes::Classifier.new
+classifier = NBClass::Classifier.new
 classifier.not_spam << "Hi Joe, how are you?"
 classifier.spam << "Buy products you don't need"
 

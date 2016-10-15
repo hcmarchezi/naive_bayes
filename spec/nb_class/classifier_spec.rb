@@ -1,17 +1,17 @@
 require 'spec_helper'
-require 'naive_bayes/classifier'
+require 'nb_class/classifier'
 
-describe NaiveBayes::Classifier do
+describe NBClass::Classifier do
   context 'categories examples' do
     it 'should be added as a dynamically created method' do
-      classifier = NaiveBayes::Classifier.new
+      classifier = NBClass::Classifier.new
       classifier.random_categ << "example 1"
       classifier.random_categ << "example 2"
       classifier.random_categ << "example 3"
       expect(classifier.random_categ.size).to be_eql(3)
     end
     it 'should break a phrase into an array of words' do
-      classifier = NaiveBayes::Classifier.new
+      classifier = NBClass::Classifier.new
       classifier.another_categ << "word1 word2 word3"
       expect(classifier.another_categ[0]).to be_eql(["word1","word2","word3"])
     end
@@ -19,7 +19,7 @@ describe NaiveBayes::Classifier do
 
   context 'element occurrence count' do
     it 'should count elements occurrence in a category' do
-      classifier = NaiveBayes::Classifier.new
+      classifier = NBClass::Classifier.new
       classifier.test  << 'car tree street truck car'
       classifier.train
       expect(classifier.element_occurrence(category: :test, element: 'car')).to be_eql(2)
@@ -29,7 +29,7 @@ describe NaiveBayes::Classifier do
     end
 
     it 'should globally count elements occurrence' do
-      classifier = NaiveBayes::Classifier.new
+      classifier = NBClass::Classifier.new
       classifier.test_a << 'blue green blue'
       classifier.test_b << 'black black black blue'
       classifier.train
@@ -40,7 +40,7 @@ describe NaiveBayes::Classifier do
   end
 
   context 'probability calculation' do
-    let(:classifier) { NaiveBayes::Classifier.new }
+    let(:classifier) { NBClass::Classifier.new }
     before do
       classifier.test_a << 'blue green blue'
       classifier.test_b << 'black black black blue'
@@ -83,7 +83,7 @@ describe NaiveBayes::Classifier do
   # P(A|green,green,green) = 0.5 * ( 0.8/0.5 * 0.8/0.5 * 0.8/0.5 ) = 2.048
   #####################################
   context 'classification' do
-    let(:classifier) { NaiveBayes::Classifier.new }
+    let(:classifier) { NBClass::Classifier.new }
 
     before do
       classifier.test_a << 'green green green green blue'

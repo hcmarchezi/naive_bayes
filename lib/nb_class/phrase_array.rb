@@ -1,6 +1,6 @@
-require 'naive_bayes/utils'
+require 'nb_class/utils'
 
-module NaiveBayes
+module NBClass
   class PhraseArray
     def initialize
       @phrase_array = []

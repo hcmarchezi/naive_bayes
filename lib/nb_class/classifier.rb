@@ -1,9 +1,9 @@
-require 'naive_bayes/error/category_name_already_exists'
-require 'naive_bayes/error/invalid_category_name'
-require 'naive_bayes/phrase_array'
-require 'naive_bayes/utils'
+require 'nb_class/error/category_name_already_exists'
+require 'nb_class/error/invalid_category_name'
+require 'nb_class/phrase_array'
+require 'nb_class/utils'
 
-module NaiveBayes
+module NBClass
   class Classifier
     SMALL_PROBABILITY = 0.000001
 
