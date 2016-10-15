@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["hcmarchezi@gmail.com"]
   spec.description   = "Machine learning text classifier"
   spec.summary       = "This gem offers a simplified interface to allow a text classifier to be trained by previous samples to identify different groups implemented with naïve bayes algorithm"
-  spec.homepage      = "https://github.com/hcmarchezi/nb_class"
+  spec.homepage      = "https://rubygems.org/gems/nb_class"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
